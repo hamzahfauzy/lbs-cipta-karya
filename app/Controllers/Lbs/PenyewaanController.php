@@ -54,6 +54,12 @@ class PenyewaanController extends CrudController {
             'status' => [
                 'label' => 'Status'
             ],
+            'pembayaran' => [
+                'label' => 'Status Pembayaran'
+            ],
+            'keterangan_produk' => [
+                'label' => 'Keterangan Produk'
+            ],
         ];
     }
 
@@ -71,8 +77,13 @@ class PenyewaanController extends CrudController {
             $userOptions[$item['id']] = $item['name'];
         }
         
-        $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi')->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->findAll();
+        $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi,tb_penyewaan.tanggal_selesai')->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->join('tb_penyewaan','tb_penyewaan.media_iklan_id=tb_media_iklan.id')->where('tb_penyewaan.tanggal_selesai', date('Y-m-d'))->findAll();
         $mediaOptions = [0 => 'Pilih Media Iklan'];
+        if($this->record)
+        {
+            $selectedMediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi')->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->find($this->record['media_iklan_id']);
+            $mediaOptions[$this->record['media_iklan_id']] = $selectedMediaIklan['nama_lokasi'] .' - '.$selectedMediaIklan['jenis'].' - '.$selectedMediaIklan['ukuran'].' - '.$selectedMediaIklan['harga_sewa'];
+        }
         foreach($mediaIklan as $item)
         {
             $mediaOptions[$item['id']] = $item['nama_lokasi'] .' - '.$item['jenis'].' - '.$item['ukuran'].' - '.$item['harga_sewa'];
@@ -106,6 +117,18 @@ class PenyewaanController extends CrudController {
                     'Selesai' => 'Selesai',
                     'Di Batalkan' => 'Di Batalkan',
                 ]
+            ],
+            'pembayaran' => [
+                'label' => 'Status Pembayaran',
+                'type' => 'select',
+                'options' => [
+                    'BELUM DIBAYAR' => 'BELUM DIBAYAR',
+                    'SUDAH DIBAYAR' => 'SUDAH DIBAYAR',
+                ]
+            ],
+            'keterangan_produk' => [
+                'label' => 'Keterangan Produk',
+                'type' => 'textarea',
             ],
         ];
     }

@@ -47,6 +47,38 @@ marker.on("dragend", function(e) {
 // };
 
 // map.on('click', onMapClick);
+let debounceTimer;
+
+function searchAddress(query) {
+    if (!query.trim()) return;
+    const address = document.getElementById('alamat').value;
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.length > 0) {
+            const lat = data[0].lat;
+            const lon = data[0].lon;
+
+        if (marker) map.removeLayer(marker);
+
+            marker = L.marker([lat, lon]).addTo(map)
+                .bindPopup(address).openPopup();
+
+            map.setView([lat, lon], 15);
+        } else {
+            alert("Alamat tidak ditemukan.");
+        }
+    });
+}
+
+document.getElementById('alamat').addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    const query = this.value;
+
+    debounceTimer = setTimeout(() => {
+        searchAddress(query);
+    }, 2000); // tunggu 2 detik setelah user berhenti mengetik
+});
 </script>
 <?= $this->endSection() ?>
 

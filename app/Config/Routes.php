@@ -19,6 +19,7 @@ $routes->get('/search', 'Home::search');
 $routes->get('/order', 'Home::order', ['filter' => 'auth']);
 $routes->post('/order', 'Home::doOrder', ['filter' => 'auth']);
 $routes->get('/dashboard', 'Home::dashboard', ['filter' => 'auth']);
+$routes->get('sitemap.xml', 'Home::sitemap');
 
 $menu = Menu::get();
 

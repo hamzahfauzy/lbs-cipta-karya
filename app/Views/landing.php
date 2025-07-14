@@ -33,6 +33,11 @@
       <script src="/landing/https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="/landing/https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .dropdown-menu>li>a {
+            color: #333 !important;
+        }
+    </style>
 </head>
 <body class="js">
     <!-- Page loader -->
@@ -57,8 +62,15 @@
                 <div class="collapse search-relative navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav menu navbar-right navbar-nav">
                         <li class="active"><a href="/landing/#home">Perkenalan</a></li>
-                        <li><a href="/landing/#service">Layanan</a></li>
-                        <li><a href="/landing/#about">Tentang Saya</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layanan <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Media Iklan</a></li>
+                                <li><a href="#">Desain Iklan</a></li>
+                                <li><a href="#">Lokasi Strategis</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/landing/#about">Tentang Iklan</a></li>
                         <li><a href="/landing/#project">Produk</a></li>
                         <?php if(session()->get('name')): ?>
                         <li><a href="/dashboard"><?=session()->get('name')?></a></li>
@@ -82,7 +94,22 @@
                 <div class="col-xs-12">
                     <div class="welcome-text text-center">
                         <h1>Dinas Cipta Karya (DK)</h1>
-                        <p style="margin-top: 20px;color:#FFF;font-size:18px">adalah suatu dinas yang memiliki tugas untuk mengatur dan mengelola bidang pekerjaan umum, khususnya dalam hal penataan ruang, bangunan gedung, perumahan, air bersih, dan penyehatan lingkungan pemukiman. Dinas ini juga berperan dalam pengelolaan infrastruktur, seperti air minum, air limbah, drainase, dan persampahan.</p>
+                        <p style="margin-top: 20px;color:#FFF;font-size:18px">
+                            adalah suatu dinas yang memiliki tugas untuk mengatur dan mengelola bidang pekerjaan umum, khususnya dalam hal penataan ruang, bangunan gedung, perumahan, air bersih, dan penyehatan lingkungan pemukiman. Dinas ini juga berperan dalam pengelolaan infrastruktur, seperti air minum, air limbah, drainase, dan persampahan.
+                            <br><br>
+                            SISTEM INI MEMILIKI LAYANANAN PENYEWAAN PAPAN IKLAN SEPERTI VIDEOTRON DAN SEPANDUK DI KAB ASAHAN DENGAN HARGA YANG TERJANGKAU BAGI PENGIKLAN DAN AKAN MENINGKATKAN PAMOR PRODUK, DAERAH, TEMPAT USAHAYANG ANDA IKLAN<br><br>
+                            <b>Iklan Videotron</b><br>
+                            Jl Lintas Sumatra, Depan Kantor Bupati, Harga 45 jt/Tahun, Ukuran 4x5M<br>
+                            Jl Lintas Sumatra, Depan Kantor Koramil, Harga 38Jt/Tahun, Ukuran 4x5M<br>
+                            Jl Imam Bonjol, Depan Taman Makjijat, Harga 58jt/Tahun, Ukuran 5x5M<br>
+                            Jalan Lintas Sumatra, Deoan Kantor Samsat, Harga35jt/Tahun, Ukuran 3x5M<br><br>
+                            <b>Iklan Sepanduk</b><br>
+                            Jalan Imam Bonjol, Harga 30jt/Tahun, Ukuran 6x5M<br>
+                            Jalan Imam Bonjol, Harga 20jt/Tahun, Ukuran 3x4M<br>
+                            Jalan Imam Bonjol, Harga 27jt/Tahun, Ukuran 5x5M<br>
+                            Jalan M.Yamin, Harga 20jt/Tahun, Ukuran 3x4M<br>
+                            Jalan Diponegoro, Harga 25jt/Tahun, Ukuran 4x4M<br>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -155,7 +182,7 @@
                                         <img src="/landing/images/about-slide-1.jpg" alt="about">
                                     </div>
                                     <div class="single-slider">
-                                        <img src="/landing/images/about-slide-2.jpg" alt="about">
+                                        <img src="/landing/images/slide-2.jpg" alt="about">
                                     </div>
                                 </div>
                             </div>

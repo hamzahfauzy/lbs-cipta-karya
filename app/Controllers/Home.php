@@ -62,7 +62,10 @@ class Home extends BaseController
 
     public function search()
     {
-        $lokasiIklan = (new LokasiIklan())->findAll();
+        $lokasiIklan = (new LokasiIklan())
+                ->select('tb_lokasi_iklan.*, tb_media_iklan.jenis')
+                ->join('tb_media_iklan','tb_media_iklan.lokasi_id=tb_lokasi_iklan.id', 'LEFT')
+                ->findAll();
         $mediaIklan = (new MediaIklan())->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format')
             ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id');
 
@@ -96,5 +99,40 @@ class Home extends BaseController
             'mediaIklan' => $mediaIklan->findAll(),
             'lokasiIklan' => $lokasiIklan
         ]);
+    }
+
+    function sitemap()
+    {
+        $pages = [
+            [
+                'loc' => base_url(),
+                'lastmod' => date('Y-m-d'),
+            ],
+            [
+                'loc' => base_url('#home'),
+                'lastmod' => date('Y-m-d'),
+            ],
+            [
+                'loc' => base_url('#tentang'),
+                'lastmod' => date('Y-m-d'),
+            ],
+            [
+                'loc' => base_url('#product'),
+                'lastmod' => date('Y-m-d'),
+            ],
+            [
+                'loc' => base_url('login'),
+                'lastmod' => date('Y-m-d'),
+            ],
+            [
+                'loc' => base_url('register'),
+                'lastmod' => date('Y-m-d'),
+            ],
+        ];
+
+        // Set Header XML
+        header('Content-Type: application/xml');
+
+        echo view('sitemap', ['pages' => $pages]);
     }
 }

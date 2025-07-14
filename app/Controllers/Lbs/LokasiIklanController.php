@@ -96,4 +96,34 @@ class LokasiIklanController extends CrudController {
         ]);
     }
 
+    public function edit($id)
+    {
+        $data = $this->getModel()->find($id);
+
+        $this->record = $data;
+
+        $page = new Page;
+        $page->setTitle('Edit ' . $this->getTitle());
+        $page->setSlug($this->getSlug());
+        $page->setBreadcrumbs([
+            [
+                'label' => $this->getTitle(),
+                'url' => '/'.$this->getSlug()
+            ],
+            [
+                'label' => 'Edit Data',
+                'url' => false
+            ],
+            [
+                'label' => $id,
+                'url' => false
+            ],
+        ]);
+
+        return $page->render('lbs/lokasi-iklan/form', [
+            'data' => $data,
+            'fields' => $this->fields()
+        ]);
+    }
+
 }

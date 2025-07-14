@@ -104,7 +104,20 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+        iconAnchor: [12, 41],
+    });
+    
+    var redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+        iconAnchor: [12, 41],
+    });
+
     for (var i = 0; i < lokasiIklan.length; i++) {
+        if(lokasiIklan[i].jenis && lokasiIklan[i].jenis != 'Spanduk'){
+            lokasiIklan[i].icon = lokasiIklan[i].jenis == 'Videotron' ? greenIcon : redIcon
+        }
         marker = new L.marker([lokasiIklan[i].lat, lokasiIklan[i].lng], {
             ...lokasiIklan[i]
         })
