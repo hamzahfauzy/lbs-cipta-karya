@@ -52,7 +52,8 @@ class PenggunaController extends CrudController {
             ],
             'password' => [
                 'label' => 'Password',
-                'type' => 'password'
+                'type' => 'password',
+                'value' => ''
             ],
             'role' => [
                 'label' => 'Peran',
@@ -63,6 +64,26 @@ class PenggunaController extends CrudController {
                 ]
             ],
         ];
+    }
+
+    public function beforeInsert($data)
+    {
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        return $data;
+    }
+    
+    public function beforeUpdate($data)
+    {
+        if(!empty($data['password']))
+        {
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        }
+        else
+        {
+            unset($data['password']);
+        }
+
+        return $data;
     }
 
 }
