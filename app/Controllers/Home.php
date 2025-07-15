@@ -54,7 +54,8 @@ class Home extends BaseController
             'media_iklan_id' => $id,
             'tanggal_mulai' => $tanggal_mulai,
             'tanggal_selesai' => $tanggal_selesai,
-            'status' => 'Pengajuan'
+            'status' => 'Pengajuan',
+            'pembayaran' => 'BELUM DIBAYAR'
         ]);
 
         return redirect()->to('/penyewaan');
