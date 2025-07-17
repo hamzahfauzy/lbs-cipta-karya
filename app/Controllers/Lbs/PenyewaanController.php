@@ -60,12 +60,36 @@ class PenyewaanController extends CrudController {
             'keterangan_produk' => [
                 'label' => 'Keterangan Produk'
             ],
+            'metode_pembayaran' => [
+                'label' => 'Metode Pembayaran'
+            ],
+            // 'bukti_pembayaran' => [
+            //     'label' => 'Bukti Pembayaran'
+            // ],
         ];
     }
 
-    protected function details()
+    // protected function details()
+    // {
+    //     return [];
+    // }
+
+    protected function detailButton($data)
     {
-        return [];
+        return '<a href="/penyewaan/invoice/'.$data['id'].'" class="btn btn-sm btn-info">Invoice</a>';
+    }
+
+    function invoice($id)
+    {
+        $model = (new $this->model)
+            ->select('tb_penyewaan.*,users.name nama_penyewa, CONCAT(tb_media_iklan.jenis," ",tb_media_iklan.ukuran," - ",tb_lokasi_iklan.nama) media, tb_media_iklan.harga_sewa harga')
+            ->join('users', 'users.id=tb_penyewaan.user_id')
+            ->join('tb_media_iklan', 'tb_media_iklan.id=tb_penyewaan.media_iklan_id')
+            ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')
+            ->where('tb_penyewaan.id', $id)->first();
+        return view('lbs/invoice', [
+            'model' => $model
+        ]);
     }
 
     protected function fields()
@@ -130,6 +154,18 @@ class PenyewaanController extends CrudController {
                 'label' => 'Keterangan Produk',
                 'type' => 'textarea',
             ],
+            'metode_pembayaran' => [
+                'label' => 'Metode Pembayaran',
+                'type' => 'select',
+                'options' => [
+                    'CASH' => 'CASH',
+                    'TRANSFER' => 'TRANSFER',
+                ]
+            ],
+            // 'bukti_pm' => [
+            //     'label' => 'Foto',
+            //     'type' => 'file',
+            // ],
         ];
     }
 

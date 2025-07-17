@@ -64,6 +64,9 @@ function searchAddress(query) {
             marker = L.marker([lat, lon]).addTo(map)
                 .bindPopup(address).openPopup();
 
+            document.querySelector('[name=lat]').value = lat
+            document.querySelector('[name=lng]').value = lon
+
             map.setView([lat, lon], 15);
         } else {
             alert("Alamat tidak ditemukan.");

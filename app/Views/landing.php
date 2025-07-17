@@ -55,19 +55,38 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/landing/#">
-                        <img src="/logo.png" alt="team-leader" width="200px" />
+                        <img src="/logo.png" alt="team-leader" width="160px" height="50px"/>
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse search-relative navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav menu navbar-right navbar-nav">
-                        <li class="active"><a href="/landing/#home">Perkenalan</a></li>
+                        <!-- <li class="active"><a href="/landing/#home">Perkenalan</a></li> -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layanan <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Media Iklan</a></li>
                                 <li><a href="#">Desain Iklan</a></li>
                                 <li><a href="#">Lokasi Strategis</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iklan Videotron <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Jl Lintas Sumatra, Depan Kantor Bupati, Harga 45 jt/Tahun, Ukuran 4x5M</a></li>
+                                <li><a href="#">Jl Lintas Sumatra, Depan Kantor Koramil, Harga 38Jt/Tahun, Ukuran 4x5M</a></li>
+                                <li><a href="#">Jl Imam Bonjol, Depan Taman Makjijat, Harga 58jt/Tahun, Ukuran 5x5M</a></li>
+                                <li><a href="#">Jalan Lintas Sumatra, Deoan Kantor Samsat, Harga35jt/Tahun, Ukuran 3x5M</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iklan Spanduk <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Jalan Imam Bonjol, Harga 30jt/Tahun, Ukuran 6x5M</a></li>
+                                <li><a href="#">Jalan Imam Bonjol, Harga 20jt/Tahun, Ukuran 3x4M</a></li>
+                                <li><a href="#">Jalan Imam Bonjol, Harga 27jt/Tahun, Ukuran 5x5M</a></li>
+                                <li><a href="#">Jalan M.Yamin, Harga 20jt/Tahun, Ukuran 3x4M</a></li>
+                                <li><a href="#">Jalan Diponegoro, Harga 25jt/Tahun, Ukuran 4x4M</a></li>
                             </ul>
                         </li>
                         <li><a href="/landing/#about">Tentang Iklan</a></li>
@@ -95,20 +114,7 @@
                     <div class="welcome-text text-center">
                         <h1>Dinas Cipta Karya (DK)</h1>
                         <p style="margin-top: 20px;color:#FFF;font-size:18px">
-                            adalah suatu dinas yang memiliki tugas untuk mengatur dan mengelola bidang pekerjaan umum, khususnya dalam hal penataan ruang, bangunan gedung, perumahan, air bersih, dan penyehatan lingkungan pemukiman. Dinas ini juga berperan dalam pengelolaan infrastruktur, seperti air minum, air limbah, drainase, dan persampahan.
-                            <br><br>
                             SISTEM INI MEMILIKI LAYANANAN PENYEWAAN PAPAN IKLAN SEPERTI VIDEOTRON DAN SEPANDUK DI KAB ASAHAN DENGAN HARGA YANG TERJANGKAU BAGI PENGIKLAN DAN AKAN MENINGKATKAN PAMOR PRODUK, DAERAH, TEMPAT USAHAYANG ANDA IKLAN<br><br>
-                            <b>Iklan Videotron</b><br>
-                            Jl Lintas Sumatra, Depan Kantor Bupati, Harga 45 jt/Tahun, Ukuran 4x5M<br>
-                            Jl Lintas Sumatra, Depan Kantor Koramil, Harga 38Jt/Tahun, Ukuran 4x5M<br>
-                            Jl Imam Bonjol, Depan Taman Makjijat, Harga 58jt/Tahun, Ukuran 5x5M<br>
-                            Jalan Lintas Sumatra, Deoan Kantor Samsat, Harga35jt/Tahun, Ukuran 3x5M<br><br>
-                            <b>Iklan Sepanduk</b><br>
-                            Jalan Imam Bonjol, Harga 30jt/Tahun, Ukuran 6x5M<br>
-                            Jalan Imam Bonjol, Harga 20jt/Tahun, Ukuran 3x4M<br>
-                            Jalan Imam Bonjol, Harga 27jt/Tahun, Ukuran 5x5M<br>
-                            Jalan M.Yamin, Harga 20jt/Tahun, Ukuran 3x4M<br>
-                            Jalan Diponegoro, Harga 25jt/Tahun, Ukuran 4x4M<br>
                         </p>
                     </div>
                 </div>
@@ -215,9 +221,13 @@
                 <?php foreach($mediaIklan as $media): ?>
                 <div class="col-sm-4">
                     <div class="single-projects">
+                        <?php if($media['tanggal_selesai'] > date('Y-m-d')): ?>
+                        <a href="#" onclick="alert('Media iklan ini tidak tersedia'); return false;">
+                        <?php else: ?>
                         <a href="/order?id=<?=$media['id']?>" onclick="<?= !session()->get('name') ? "alert('Login terlebih dahulu untuk memesan'); return false;" : ""?>">
+                        <?php endif ?>
                             <img src="/<?=$media['foto']?>" alt="<?=$media['nama_lokasi']?>" style="margin-bottom: 20px;">
-                            <h3><?=$media['nama_lokasi']?></h3>
+                            <h3><?=$media['nama_lokasi']?> <?=($media['tanggal_selesai'] > date('Y-m-d')) ? '(Tidak Tersedia)' : ''?></h3>
                             <h4><?=$media['jenis']?></h4>
                             <div class="projects-hover text-center">
                                 <img src="/landing/images/projects/project-hover-icon.png" alt="#">

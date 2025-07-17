@@ -12,8 +12,13 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        $mediaIklan = (new MediaIklan())->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format')
-            ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->findAll();
+        $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format, tb_penyewaan.tanggal_selesai')
+            ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')
+            ->join('tb_penyewaan','tb_penyewaan.media_iklan_id=tb_media_iklan.id')
+            // ->where('tb_penyewaan.tanggal_selesai', date('Y-m-d'))
+            ->findAll();
+        // $mediaIklan = (new MediaIklan())->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format')
+        //     ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->findAll();
         return view('landing', [
             'mediaIklan' => $mediaIklan
         ]);
@@ -49,6 +54,16 @@ class Home extends BaseController
         $id = $_GET['id'];
         $tanggal_mulai = $this->request->getVar('tanggal_mulai');
         $tanggal_selesai = $this->request->getVar('tanggal_selesai');
+        $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format, tb_penyewaan.tanggal_selesai')
+            ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')
+            ->join('tb_penyewaan','tb_penyewaan.media_iklan_id=tb_media_iklan.id')
+            ->where('tb_media_iklan.id', $id)->first();
+
+        // if($mediaIklan && $mediaIklan['tanggal_selesai'] > $tanggal_mulai)
+        // {
+        //     return redirect()->to('/penyewaan')->with('errors', 'Maaf! Media iklan pada tanggal yang dipesan masih dalam kontrak. Silahkan pilih tanggal yang lain');
+        // }
+        
         (new Penyewaan)->insert([
             'user_id' => session()->get('id'),
             'media_iklan_id' => $id,
@@ -67,6 +82,10 @@ class Home extends BaseController
                 ->select('tb_lokasi_iklan.*, tb_media_iklan.jenis')
                 ->join('tb_media_iklan','tb_media_iklan.lokasi_id=tb_lokasi_iklan.id', 'LEFT')
                 ->findAll();
+        // $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format, tb_penyewaan.tanggal_selesai')
+        //     ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')
+        //     ->join('tb_penyewaan','tb_penyewaan.media_iklan_id=tb_media_iklan.id')
+        //     ->where('tb_penyewaan.tanggal_selesai', date('Y-m-d'));
         $mediaIklan = (new MediaIklan())->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format')
             ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id');
 

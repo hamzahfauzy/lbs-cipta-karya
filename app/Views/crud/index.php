@@ -5,6 +5,11 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+<?php if (session()->has('errors')) : ?>
+<div class="alert alert-danger">
+    <?= esc(session('errors')) ?>
+</div>
+<?php endif ?>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

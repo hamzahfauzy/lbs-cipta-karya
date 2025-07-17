@@ -114,22 +114,27 @@
         iconAnchor: [12, 41],
     });
 
+    const marker = []
+
     for (var i = 0; i < lokasiIklan.length; i++) {
         if(lokasiIklan[i].jenis && lokasiIklan[i].jenis != 'Spanduk'){
             lokasiIklan[i].icon = lokasiIklan[i].jenis == 'Videotron' ? greenIcon : redIcon
         }
-        marker = new L.marker([lokasiIklan[i].lat, lokasiIklan[i].lng], {
+        console.log(lokasiIklan[i])
+        const newMarker = new L.marker([lokasiIklan[i].lat, lokasiIklan[i].lng], {
             ...lokasiIklan[i]
         })
             .bindPopup(lokasiIklan[i].nama)
             .addTo(map);
 
-        marker.on("click", function(e) {
+        newMarker.on("click", function(e) {
             var marker = e.target;
             lokasiId = marker.options.id
 
             window.location.href = '/search?lokasi_id=' + lokasiId
         });
+
+        marker.push(newMarker)
     }
 
     // var marker = L.marker([2.985152, 99.628889]).addTo(map);

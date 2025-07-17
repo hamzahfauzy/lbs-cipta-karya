@@ -16,7 +16,7 @@
         </div>
         <div class="col-12 col-lg-4">
             <div class="card">
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <?php if(session()->getFlashdata('success')):?>
                             <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -35,6 +35,13 @@
                         <div class="form-group">
                             <label for="password">Tanggal Selesai</label>
                             <input type="date" class="form-control" id="password" name="tanggal_selesai">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Metode Pembayaran</label>
+                            <select name="metode_pembayaran" class="form-control">
+                                <option value="CASH">CASH</option>
+                                <option value="TRANSFER">TRANSFER</option>
+                            </select>
                         </div>
                     </div>
                     <div class="card-action text-center">

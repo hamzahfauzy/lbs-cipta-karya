@@ -48,3 +48,5 @@ foreach($moduleRoute as $slug => $controller)
     $routes->get('/'.$slug.'/(:num)/edit', $controller.'::edit/$1', ['filter' => 'auth']);
     $routes->post('/'.$slug.'/(:num)/edit', $controller.'::update/$1', ['filter' => 'auth']);
 }
+
+$routes->get('/penyewaan/invoice/(:num)', 'Lbs\PenyewaanController::invoice/$1', ['filter' => 'auth']);
