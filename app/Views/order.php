@@ -38,10 +38,15 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Metode Pembayaran</label>
-                            <select name="metode_pembayaran" class="form-control">
+                            <select name="metode_pembayaran" class="form-control" onchange="document.querySelector('#bukti_pembayaran').style.display = this.value != 'CASH' ? 'block' : 'none'">
                                 <option value="CASH">CASH</option>
-                                <option value="TRANSFER">TRANSFER</option>
+                                <option value="BANK BRI (3388010282164986)">BANK BRI (3388010282164986)</option>
+                                <option value="BANK SUMUT (0112345678)">BANK SUMUT (0112345678)</option>
                             </select>
+                        </div>
+                        <div class="form-group" id="bukti_pembayaran" style="display:none">
+                            <label>Bukti Pembayaran</label>
+                            <input type="file" class="form-control" name="bukti_pembayaran">
                         </div>
                     </div>
                     <div class="card-action text-center">

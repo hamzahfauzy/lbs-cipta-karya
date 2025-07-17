@@ -12,13 +12,21 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        $mediaIklan = (new MediaIklan)->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format, tb_penyewaan.tanggal_selesai')
-            ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')
-            ->join('tb_penyewaan','tb_penyewaan.media_iklan_id=tb_media_iklan.id')
-            // ->where('tb_penyewaan.tanggal_selesai', date('Y-m-d'))
-            ->findAll();
-        // $mediaIklan = (new MediaIklan())->select('tb_media_iklan.*, tb_lokasi_iklan.nama nama_lokasi, FORMAT(harga_sewa,0) harga_sewa_format')
-        //     ->join('tb_lokasi_iklan', 'tb_lokasi_iklan.id=tb_media_iklan.lokasi_id')->findAll();
+        $db = \Config\Database::connect();
+        $sql = "
+            SELECT tb_media_iklan.*, tb_lokasi_iklan.nama AS nama_lokasi, FORMAT(harga_sewa,0) AS harga_sewa_format, tb_penyewaan.tanggal_selesai
+            FROM tb_media_iklan
+            JOIN tb_lokasi_iklan ON tb_lokasi_iklan.id = tb_media_iklan.lokasi_id
+            LEFT JOIN tb_penyewaan ON tb_penyewaan.id = (
+                SELECT id FROM tb_penyewaan
+                WHERE tb_penyewaan.media_iklan_id = tb_media_iklan.id
+                ORDER BY tanggal_selesai DESC
+                LIMIT 1
+            )
+        ";
+        $query = $db->query($sql);
+        $mediaIklan = $query->getResultArray();
+
         return view('landing', [
             'mediaIklan' => $mediaIklan
         ]);
@@ -63,15 +71,23 @@ class Home extends BaseController
         // {
         //     return redirect()->to('/penyewaan')->with('errors', 'Maaf! Media iklan pada tanggal yang dipesan masih dalam kontrak. Silahkan pilih tanggal yang lain');
         // }
-        
-        (new Penyewaan)->insert([
+
+        $img = $this->request->getFile('bukti_pembayaran');
+
+        $data = [
             'user_id' => session()->get('id'),
             'media_iklan_id' => $id,
             'tanggal_mulai' => $tanggal_mulai,
             'tanggal_selesai' => $tanggal_selesai,
             'status' => 'Pengajuan',
             'pembayaran' => 'BELUM DIBAYAR'
-        ]);
+        ];
+
+        if (! $img->hasMoved()) {
+            $data['bukti_pembayaran'] = 'uploads/' . $img->store();
+        }
+        
+        (new Penyewaan)->insert($data);
 
         return redirect()->to('/penyewaan');
     }

@@ -76,7 +76,14 @@ class PenyewaanController extends CrudController {
 
     protected function detailButton($data)
     {
-        return '<a href="/penyewaan/invoice/'.$data['id'].'" class="btn btn-sm btn-info">Invoice</a>';
+        $btn = '<a href="/penyewaan/invoice/'.$data['id'].'" class="btn btn-sm btn-info">Invoice</a>';
+
+        if($data['bukti_pembayaran'])
+        {
+            $btn .= '<a href="'.$data['bukti_pembayaran'].'" class="btn btn-sm btn-success">Lihat Bukti</a>';
+        }
+
+        return $btn;
     }
 
     function invoice($id)
