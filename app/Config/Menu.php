@@ -24,6 +24,7 @@ class Menu {
             static::buildItem('Lokasi Strategis', false, 'lokasi-strategis', 'fas fa-map-marker', 'Lbs\LokasiStrategisController', ['Admin']),
             static::buildItem('Media Iklan', false, 'media-iklan', 'fas fa-film', 'Lbs\MediaIklanController', ['Admin']),
             static::buildItem('Penyewaan', false, 'penyewaan', 'fas fa-hand-holding-usd', 'Lbs\PenyewaanController', ['Admin','Penyewa']),
+            static::buildItem('Keuangan', false, 'keuangan', 'fas fa-money-bill', 'Lbs\KeuanganController', ['Admin']),
             static::buildItem('Pengguna', false, 'pengguna', 'fas fa-users', 'Lbs\PenggunaController', ['Admin']),
         ];
     }

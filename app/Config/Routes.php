@@ -50,3 +50,4 @@ foreach($moduleRoute as $slug => $controller)
 }
 
 $routes->get('/penyewaan/invoice/(:num)', 'Lbs\PenyewaanController::invoice/$1', ['filter' => 'auth']);
+$routes->get('/keuangan', 'Lbs\KeuanganController::index', ['filter' => 'auth']);
